@@ -6,6 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from plots import *
 
+   
 # defining NN architecture
 class HeatNet(nn.Module):
     def __init__(self):
