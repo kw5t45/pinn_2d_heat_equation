@@ -31,7 +31,7 @@ $L_{\text{BC}} = \frac{1}{N_b} \sum_{i=1}^{N_b} \left| u(x_i, y_i, t_i) - g(x_i,
 We use Adam as optimizer and train over 5000 epochs on a mesh grid on $R^3$ with step = 0.01. 
 ## Graphs and precision
 
-We can visualize model performance over all inputs by a time animation on the surface $0 <= x, y <= 1$, for the constant $α=0.05$.
+We can visualize model performance over all inputs by a time animation on the surface $0 <= x, y <= 1$, for the constant $α=0.05$.<br>
 <img src="resources/model_3d.gif" alt="model3d" width="400"/>
 <br>
 For this particular heat equation, we know the true solution analytically which is
