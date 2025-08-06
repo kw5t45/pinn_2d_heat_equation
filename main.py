@@ -105,11 +105,11 @@ def bc_loss(model, X_b):
 
 # final loss
 
-def total_loss(model, X_f, X0, u0, X_b, alpha):
+def total_loss(model, X_f, X0, u0, X_b, alpha, l1=0.05, l2=0.01, l3=0.01):
     loss_pde = pde_loss(model, X_f, alpha)
     loss_ic = ic_loss(model, X0, u0)
     loss_bc = bc_loss(model, X_b)
-    return loss_pde + loss_ic + loss_bc
+    return l1*loss_pde + l2*loss_ic + l3*loss_bc, l1*loss_pde, l2*loss_ic, l3*loss_bc
 
 # enerating training points
 X_f = X_f.to('cpu')
@@ -124,18 +124,30 @@ model = HeatNet().to('cpu')
 optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
 
 num_epochs = 5000
+
 loss_history = []
+pde_history = []
+ic_history = []
+bc_history = []
 
 for epoch in range(num_epochs):
     optimizer.zero_grad()
 
-    loss = total_loss(model, X_f, X0, u0, X_b, alpha=0.2)
+    loss, loss_pde, loss_ic, loss_bc = total_loss(model, X_f, X0, u0, X_b, alpha=0.05)
     loss.backward()
     optimizer.step()
 
     loss_history.append(loss.item())
+    pde_history.append(loss_pde.item())
+    ic_history.append(loss_ic.item())
+    bc_history.append(loss_bc.item())
 
     if epoch % 500 == 0:
         print(f"Epoch {epoch}, Loss: {loss.item():.6f}")
 
-plot_loss_history(loss_history, num_epochs)
+# plot_loss_components(loss_history, pde_history, ic_history, bc_history)
+# animate_real_2d(0.05, save_path=r"C:\Users\kalot\Desktop\real_2d.gif")
+# animate_model_prediction(model, save_path=r"C:\Users\kalot\Desktop\model_2d.gif")
+# animate_model_3d(model, save_path=r"C:\Users\kalot\Desktop\model_3d.gif")
+# animate_real_3d(0.05, save_path=r"C:\Users\kalot\Desktop\real_3d.gif")
+animate_error_3d(model, 0.05, save_path=r"C:\Users\kalot\Desktop\error_3d.gif")
