@@ -1,4 +1,4 @@
-# pinn_2d_heat_equation
+# pinn-2d-heat-equation
 ### Physics Informed Neural Network predicting temperature on a surface with Dirichlet boundary conditions.
 PINNs are neural networks trained not only on data but also to satisfy **underlying physical laws**, represented as differential equations. Here, we solve a PDE **without labeled training data** — only the governing equation and boundary/initial conditions are used during training.
 
